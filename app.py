@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify
 import requests
 from render_json_summary_from_pdf import pdf_processor, download_pdf
 import uuid
+from werkzeug.utils import secure_filename
+import os
 
 # Initialise flask app
 app = Flask(__name__)
@@ -12,7 +14,15 @@ CORS(app, supports_credentials=True)
 sslify = SSLify(app)
 AUTH_TOKEN = "test"
 request_id = str(uuid.uuid4())
+UPLOAD_FOLDER='./data/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+ALLOWED_EXTENSIONS = {'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/hello", methods=["GET"])
 def hello():
@@ -39,12 +49,24 @@ def process_pdf():
         if auth_token != AUTH_TOKEN:
             return jsonify({'error': 'Authentication failed'}), 401
 
-        # Get the PDF or PDF URL from the request data
-        pdf_data = request.get_json()
-
-        pdf_url = pdf_data['pdf_url']
-        pdf_path = f"./data/{request_id}.pdf"
-        download_pdf(pdf_url, pdf_path)
+        pdf_path = f"{UPLOAD_FOLDER}/{request_id}.pdf"
+        if 'file' in request.files:
+            file = request.files['file']
+            if file.filename == '':
+                return {
+                  'status': 'failed',
+                  'request_id': request_id,
+                  'error': 'invalid file'
+                  }
+                
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
+        else:
+            # Get the PDF or PDF URL from the request data
+            pdf_data = request.get_json()
+            pdf_url = pdf_data['pdf_url']
+            download_pdf(pdf_url, pdf_path)
         json_result = pdf_processor(pdf_path)
             
 

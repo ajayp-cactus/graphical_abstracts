@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 credentials
 data
+hackathon
+*.DS_Store
