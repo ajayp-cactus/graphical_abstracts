@@ -89,10 +89,19 @@ def process_pdf():
         return jsonify(result)
     
     
-@app.route('/process_pdf_async', methods=['POST'])
+@app.route('/process_pdf_async', methods=['POST','OPTIONS'])
 def process_pdf_async():
+    if request.method =='OPTIONS':
+        result = {'status': 'true'}
+        response = jsonify(result)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        return response
+        
     # Get the authentication token from the request headers
     auth_token = request.headers.get('Authorization')
+    request_data=request.get_json()
+    
     try:
         # Check if the token is valid
         if auth_token != AUTH_TOKEN:
@@ -112,8 +121,7 @@ def process_pdf_async():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
         else:
             # Get the PDF or PDF URL from the request data
-            pdf_data = request.get_json()
-            pdf_url = pdf_data['pdf_url']
+            pdf_url = request_data['pdf_url']
             download_pdf(pdf_url, pdf_path)
         # json_result = pdf_processor(pdf_path)
         # asyncio.run(async_process(request_id,pdf_path))
