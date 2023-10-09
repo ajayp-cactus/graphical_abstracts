@@ -15,7 +15,6 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True,resources={r"*": {"origins": "*"}})
 sslify = SSLify(app)
 AUTH_TOKEN = "test"
-request_id = str(uuid.uuid4())
 UPLOAD_FOLDER='./data/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -54,6 +53,7 @@ def process_pdf():
         if auth_token != AUTH_TOKEN:
             return jsonify({'error': 'Authentication failed'}), 401
 
+        request_id = str(uuid.uuid4())
         pdf_path = f"{UPLOAD_FOLDER}/{request_id}.pdf"
         if 'file' in request.files:
             file = request.files['file']
@@ -109,6 +109,7 @@ def process_pdf_async():
         if auth_token != AUTH_TOKEN:
             return jsonify({'error': 'Authentication failed'}), 401
 
+        request_id = str(uuid.uuid4())
         pdf_path = f"{UPLOAD_FOLDER}/{request_id}.pdf"
         if 'file' in request.files:
             file = request.files['file']
