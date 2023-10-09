@@ -15,97 +15,14 @@ logger.setLevel(logging.INFO)
 
 #----Infographic and type mapping
 infograph_templates = {
-    1: {
-           1: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "imageOne": "provide an image description suitable for step 1",
-                "textOne": "provide an key point suitable suitable for step 1",
-                "imageTwo": "provide an image description suitable for step 2",
-                "textTwo": "provide an key point suitable suitable for step 2",
-                "imageThree": "provide an image description suitable for step 3",
-                "textThree": "provide an key point for step 3"
-           }, 
-           2: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "subtitle": "provide a sub-title based on summary of the paper - should be less than 6 words",
-                "caption": "provide key point suitable for the step 1 and image 1",
-                "captionImage": "provide an image description that is suitable for the overall study and is step 1 of the process",
-                "imageOne": "provide an image description suitable for first route from step 1",
-                "textOne": "provide an key point suitable suitable for first route from step 1",
-                "imageTwo": "provide an image description suitable for second route from step 1",
-                "textTwo": "provide an key point suitable suitable for second route from step 1",
-                "imageThree": "provide an image description suitable for imageOne last step",
-                "textThree": "provide an key point for textOne last step",
-                "imageFour": "provide an image description suitable for imageTwo last step",
-                "textFour": "provide an key point for textTwo last step"
-           }
-        },
-    2: {
-        1: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "image_1_description": "provide an image description that is suitable for the overall study",
-                "image_1_keywords": [],
-                "image_1_title": "provide key point suitable for the paper and image 1",
-                "image_2_description": "provide an image description for first comparison",
-                "image_2_keywords": [],
-                "image_2_title": "provide key point suitable for first comparison and image 2",
-                "image_3_description": "provide an image description for second comparison",
-                "image_3_keywords": [],
-                "image_3_title": "provide key point suitable for second comparison and image 3",
-                "conclusion" : "result of the study in less than 10/12 words"
-            },
-         2: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "image_1_description": "provide an image description that is suitable for the overall study",
-                "image_1_keywords": [],
-                "image_1_title": "provide key point suitable for the paper and image 1",
-                "image_2_description": "provide an image description for first comparison",
-                "image_2_keywords": [],
-                "image_2_title": "provide key point suitable for first comparison and image 2",
-                "image_3_description": "provide an image description for second comparison",
-                "image_3_keywords": [],
-                "image_3_title": "provide key point suitable for second comparison and image 3",
-                "image_4_description": "provide an image description for second comparison",
-                "image_4_keywords": [],
-                "image_4_title": "provide key point suitable for second comparison and image 3",
-                "conclusion" : "result of the study in less than 10/12 words"
-            }
-    },
-    3: {
-        1: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "imageOne": "provide an image description suitable for step 1",
-                "textOne": "provide an key point suitable suitable for step 1",
-                "imageTwo": "provide an image description suitable for step 2",
-                "textTwo": "provide an key point suitable suitable for step 2",
-                "imageThree": "provide an image description suitable for step 3",
-                "textThree": "provide an key point for step 3"
-           }},
-    4: {
-        1: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "imageOne": "provide an image description suitable for step 1",
-                "textOne": "provide an key point suitable suitable for step 1",
-                "imageTwo": "provide an image description suitable for step 2",
-                "textTwo": "provide an key point suitable suitable for step 2",
-                "imageThree": "provide an image description suitable for step 3",
-                "textThree": "provide an key point for step 3"
-           }},
-
-    5: {
-        1: {
-                "title": "provide a title based on summary of the paper - should be less than 10 words",
-                "imageOne": "provide an image description suitable for step 1",
-                "textOne": "provide an key point suitable suitable for step 1",
-                "imageTwo": "provide an image description suitable for step 2",
-                "textTwo": "provide an key point suitable suitable for step 2",
-                "imageThree": "provide an image description suitable for step 3",
-                "textThree": "provide an key point for step 3"
-           }}
+    "Template-1": {
+      "role": "system",
+      "content": "You are a helpful assistant created by MTG. Your role is to create a JSON structure for the \"Comparative Infographic\" template based on the scientific research context provided to you to help MTG generate a graphical abstract. The description and JSON structure of \"Comparative Infographic\" is as follows:\n\nDescription: The template is divided into three main vertical sections, each representing a group or stage. From left to right, each section has a square placeholder for an image, followed by a subtitle and a detailed text box. The leftmost section is distinctively larger, potentially indicating a starting point or a primary group. The other two sections are of equal size, suggesting they hold similar importance. The overall design suggests a progression or comparison from the primary group on the left to the subsequent groups on the right.\n\nJSON_structure: \n{\n    \"title\": \"It describes the main title of the template.  It should be strictly less than 20 characters.\",\n    \"imageOne\": \"It describes the name for 'experimental group 1' or the 'first comparison', could also be the 'Finding 1' in an infographic that is organized into 3 sections, each describing one scientific finding. It's directly associated with `textOne`.\",\n    \"textOne\": \"It describes the academic/formal description for `imageOne` in the template. It should be strictly less than 64 characters\",\n    \"imageTwo\": \"It describes the name for 'experimental group 2' or the 'second comparison', could also be the 'Finding 2' in an infographic that is organized into 3 sections, each describing one scientific finding. It's directly associated with `textTwo`.\",\n    \"textTwo\": \"It describes the academic/formal description for `imageTwo` in the template. It should be strictly less than 64 characters\",\n    \"imageThree\": \"It describes the name for 'experimental group 3' or the 'third comparison', could also be the 'Finding 3' in an infographic that is organized into 3 sections, each describing one scientific finding. It's directly associated with `textThree.`\"\n    \"textThree\": \"It provides the formal description for `imageThree` in the template. It should be strictly less than 64 characters.\"\n}\n\nRefer the following example for a better understanding:\nEXAMPLE:\n{\"title\": \"Types of butterflies\",\n\"imageOne\": \"Monarch Butterfly\",\n\"textOne\": \"orange wings with black veins and long-distance migrations.\",\n\"imageTwo\": \"Swallowtail Butterfly\",\n\"textTwo\": \"Characterized by its distinctive swallowtail-shaped hindwings\",\n\"imageThree\": \"Blue Morpho Butterfly\",\n\"textThree\": \"Renowned for its dazzling iridescent blue wings\"}\n\n\nNOTE: Strictly adhere to the guidelines mentioned in the JSON and understand the template description thoroughly. Do not add any filler text or preambles and return the output in JSON for the provided scientific research context.\n\n\n\n\n\n\n"
+    }
 }
 
 #GPT
-with open("./credentials/gcp_credentials.json") as f:
+with open("/Users/pooja.mehta/Projects/buildathon/pdf_to_json/credentials/gcp_credentials.json") as f:
     gcp_creds = json.load(f)
 openai.api_key = gcp_creds['api_key']
 @backoff.on_exception(backoff.expo,
@@ -211,10 +128,9 @@ def titan_pdf_to_text(file_loc, titan_output_dir):
         break
     return save_path
     
-def first_prompt_from_txt_file(text_file_path):
+def get_research_text(text_file_path):
     #------------Prompt Creation
-    prompt = f'For the research article - \n"'
-
+    prompt = ''
     with open(text_file_path) as f:
         data = json.load(f)
 
@@ -234,36 +150,31 @@ def first_prompt_from_txt_file(text_file_path):
             prompt += figure.get('text')+ "\n"
         for table in data['table_captions']:
             prompt += table.get('text')+ "\n"
-    prompt += '''" \n Considering the following classification of infographics and their respective type (if available), which one is the more suitable to describe this paper?
-    1. **Listicle Infographics**: 
-    - **Types**
-            - 1. For 3 steps
-            - 2. For 3 steps, where first step has two routes
-    2. **Comparative Infographics**:
-    - **Types**
-            - 1. For 2 groups comparison
-            - 2. For 3 groups comparison
-    3. **Informational Infographics**:
-    4. **Geographical & Map Infographics**:
-    5. **Timeline Infographics**:
-
-    Just give number of the infographic and it's type number in the following format
-    infographic: <number>
-    type: <number>'''
-
     return prompt
 
-def second_prompt_generation(infograph, infograph_type=1):
-    prompt = f'''Provide a summary of the paper that will fit in "Comparative Infographics" style with 2 group comparisons. 
-                Every image description should be very specific about what the image is and it should not have more than 2 elements
-                Every image keyword should provide with a set of 4/5 words that can help us find image through keywords
-                Every image title should be of less than 10/12 words.
-                Note: If stats are required in an image then please mention the stats/numbers in the image description
+def first_prompt_msg_generation(research_text):
+    msg = [{
+        "role": "system",
+        "content": "You are a helpful assistant created by MTG. Your role is to suggest infographics templates, based on the research paper context provided to you. There are four types of templates you can choose from. The description of templates is as follows:\n\n[Template-1]\nName - Comparative Infographics\nDescription - The infographic template is designed for comparing up to three groups or stages. It has a clear left-to-right flow, making it suitable for presenting processes or sequences. The three main sections are vertically aligned, each containing placeholders for images, subtitles, and detailed text.\nUses - \n1) Before and after comparisons\n2) Baseline versus post-treatment\n3) Pre-treatment versus post-treatment\nKeywords - The following keywords can help you identify this template:\n1. Comparative Study\n2. Controlled Experiment\n3. Cross-sectional Study\n4. Cohort Study\n5. Randomized Controlled Trial\n\n[Template-2]\nName - Comparative Infographics\nDescription - This template is designed to compare three distinct groups or items. The vertical alignment of the elements suggests a top-to-bottom reading flow. Each group is represented by an image, a title (or subtitle), and a detailed explanation. The template is ideal for comparing three different scenarios, stages, or items in a scientific context.\nUses - \n1) Before and after comparisons\n2) Baseline versus post-treatment\n3) Pre-treatment versus post-treatment\nKeywords - The following keywords can help you identify this template:\n1. Comparative Study\n2. Controlled Experiment\n3. Cross-sectional Study\n4. Cohort Study\n5. Randomized Controlled Trial\n\n\n[Template-3]\nName - Sequential Infographics\nDescription - This template is designed to showcase a sequence or progression of four steps or stages. The horizontal alignment and the arrows connecting each section suggest a left-to-right reading flow. Each stage is represented by an image, a title (or subtitle), and a detailed explanation. The template is ideal for illustrating a process, timeline, or sequence of events in a scientific context.\nUses - \n1) stage development\n2) treatment process\nKeywords - The following keywords can help you identify this template:\n1. Longitudinal Study\n2. Case Study\n3. Process Analysis\n4. Time-Series Study\n5. Developmental Study\n\n[Template-4]\nName - Comparative Infographics\nDescription - This template is designed for a side-by-side comparison of two main elements or groups. The vertical division suggests two distinct but related sections. Each section has an image, a title, and a detailed explanation. The template is ideal for illustrating contrasts, comparisons, or two related concepts in a scientific context.\nKeywords - The following keywords can help you identify this template:\n1. Longitudinal Study\n2. Case Study\n3. Process Analysis\n4. Time-Series Study\n5. Developmental Study\n\nNOTE: Return only the type of template i.e. Template-1, Template-2, Template-3, or Template-4 without any filler text or preambles in titlecase format."
+        },
+        {
+        "role": "user",
+        "content": f"Research_context:\n{research_text}\n\nOutput: "
+        }
+    ]
+    return msg
 
-                Reply in the following format considering the rules mentioned above. 
-                {json.dumps(infograph_templates[infograph][infograph_type])}
-                '''
-    return prompt
+def second_prompt_generation(infograph, reserach_text):
+    messages=[
+        infograph_templates[infograph]
+    ,
+    {
+      "role": "user",
+      "content": f"Research_context:\n{reserach_text}\n\n\nOutput: "
+    }
+  ]
+    return messages
+
 
 
 def generate_text(messages, max_length=800, temparature=0.5):
@@ -279,27 +190,20 @@ def pdf_processor(file_loc):
         except Exception as e:
             raise Exception(f"Titan Failure: {e}")
         #GPT 
-        prompt = [{"role": "user", "content": first_prompt_from_txt_file(titan_op_path)}]
+        research_text = get_research_text(titan_op_path)
+        prompt = first_prompt_msg_generation(research_text)
         _log(status="START", resource_info="PROMPT 1 AI GENERATOR")
         #ToDo: Get type of infograph
         try:
-            prompt_1_op = generate_text(prompt).choices[0]['message']
+            prompt_1_op = generate_text(prompt, max_length=86).choices[0]['message']
         except Exception as e:
             raise Exception(f"GPT Failure: {e}")
-        print(prompt_1_op)
-        prompt.append(prompt_1_op)
-        infograph = int(prompt_1_op['content'].split("\n")[0].strip().split(":")[-1])
-        type_p = prompt_1_op['content'].split("\n")[-1].strip().split(":")
-        if len(type_p)>1:
-            info_type = int(type_p[-1])
-        else:
-            info_type = 1
+        infograph = prompt_1_op['content']
+
+        prompt2 = second_prompt_generation(infograph=infograph, reserach_text=research_text)
         _log(status="START", resource_info="PROMPT 2 AI GENERATOR")
-        prompt.append({"role": "user", 
-                                    "content": second_prompt_generation(infograph=infograph, infograph_type=info_type)})
-        print(prompt)
         try:
-            prompt_2_op = generate_text(prompt).choices[0]['message']['content']
+            prompt_2_op = generate_text(prompt2, max_length=426).choices[0]['message']['content']
         except Exception as e:
             raise Exception(f"GPT Failure: {e}")
         print(prompt_2_op)
@@ -308,5 +212,3 @@ def pdf_processor(file_loc):
         return(explainable_json)
     except Exception as e:
         raise Exception (f'''PDF Processing failed: {e}''')
-
-
