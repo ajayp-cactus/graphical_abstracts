@@ -69,7 +69,6 @@ def process_pdf():
                   }
                 
             if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
         else:
             # Get the PDF or PDF URL from the request data
