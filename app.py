@@ -93,12 +93,14 @@ def process_pdf_async():
         response.headers.add('Access-Control-Allow-Headers', '*')
         response.headers.add('Access-Control-Allow-Methods', '*')
         return response
-    print(request.headers)
-    print(request.form,request.files)
-    # if len(request.form)==0:
-    #     requests_data=request.get_json()
-    # else:
-    request_data=request.form
+    # print(request.headers)
+    # print(request.form,request.files)
+    
+    if request.headers.get('Content-Type') == 'application/json':
+        request_data=request.json
+    else:
+        request_data=request.form
+        
     # Get the authentication token from the request headers
     auth_token = request.headers.get('Authorization')
     
@@ -127,7 +129,7 @@ def process_pdf_async():
         # process = Process(target=async_process, args=(request_id,pdf_path))
         # process.start()
         
-        thread = Thread(target = async_process, args = (request_id,pdf_path))
+        thread = Thread(target = async_process, args = (request_id,pdf_path,request_data))
         thread.start()
 
         result = {'status': 'in_progress',
@@ -147,8 +149,8 @@ def process_pdf_async():
         response.headers.add('Access-Control-Allow-Methods', '*')
         return response
     
-def async_process(request_id,pdf_path):
-    model_type = pdf_data['type'] if pdf_data.get('type') else 'gpt'
+def async_process(request_id,pdf_path,request_data):
+    model_type = request_data['type'] if request_data.get('type') else 'gpt'
     json_result = pdf_processor(pdf_path, model_type)
     r.json().set(request_id, "$", json_result)
     return True
