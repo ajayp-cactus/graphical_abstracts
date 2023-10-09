@@ -24,4 +24,5 @@ tqdm==4.66.1
 urllib3==2.0.6
 Werkzeug==3.0.0
 yarl==1.9.2
+redis==5.0.1
 
