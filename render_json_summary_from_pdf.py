@@ -22,7 +22,7 @@ infograph_templates = {
 }
 
 #GPT
-with open("/Users/pooja.mehta/Projects/buildathon/pdf_to_json/credentials/gcp_credentials.json") as f:
+with open("./credentials/gcp_credentials.json") as f:
     gcp_creds = json.load(f)
 openai.api_key = gcp_creds['api_key']
 @backoff.on_exception(backoff.expo,
