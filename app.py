@@ -9,7 +9,7 @@ import os
 import redis
 import json
 from multiprocessing import Process
-
+from threading import Thread
 # Initialise flask app
 app = Flask(__name__)
 CORS(app, supports_credentials=True,resources={r"*": {"origins": "*"}})
@@ -28,10 +28,6 @@ r = redis.Redis(
   port=30662,
   password=gcp_creds['redis_password']
 )
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/hello", methods=["GET"])
 def hello():
@@ -67,9 +63,7 @@ def process_pdf():
                   'request_id': request_id,
                   'error': 'invalid file'
                   }
-                
-            if file and allowed_file(file.filename):
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
         else:
             # Get the PDF or PDF URL from the request data
             pdf_data = request.get_json()
@@ -97,10 +91,14 @@ def process_pdf_async():
         response.headers.add('Access-Control-Allow-Origin', '*')
         response.headers.add('Access-Control-Allow-Headers', '*')
         return response
-        
+    print(request.headers)
+    print(request.form,request.files)
+    # if len(request.form)==0:
+    #     requests_data=request.get_json()
+    # else:
+    request_data=request.form
     # Get the authentication token from the request headers
     auth_token = request.headers.get('Authorization')
-    request_data=request.get_json()
     
     try:
         # Check if the token is valid
@@ -116,31 +114,29 @@ def process_pdf_async():
                   'request_id': request_id,
                   'error': 'invalid file'
                   }
-                
-            if file and allowed_file(file.filename):
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], f"{request_id}.pdf"))
         else:
             # Get the PDF or PDF URL from the request data
+            
             pdf_url = request_data['pdf_url']
             download_pdf(pdf_url, pdf_path)
         # json_result = pdf_processor(pdf_path)
         # asyncio.run(async_process(request_id,pdf_path))
-        process = Process(target=async_process, args=(request_id,pdf_path))
-        process.start()
+        # process = Process(target=async_process, args=(request_id,pdf_path))
+        # process.start()
+        
+        thread = Thread(target = async_process, args = (request_id,pdf_path))
+        thread.start()
 
         result = {'status': 'in_progress',
                   'request_id': request_id}
         response = jsonify(result)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        
         return response
     except Exception as e:
         result = {'status': 'failed',
                   'request_id': request_id,
                   'error': e}
         response = jsonify(result)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        
         return response
     
 def async_process(request_id,pdf_path):
