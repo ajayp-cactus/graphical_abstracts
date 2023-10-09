@@ -103,7 +103,7 @@ def download_pdf(pdf_url, save_path):
     
 def titan_pdf_to_text(file_loc, titan_output_dir):
     #-----------------Titan PDF to Full-Text
-    api_base_url = "nv-alb-titan-prod-1415563017.us-east-1.elb.amazonaws.com:80"
+    api_base_url = "nv-alb-titan-test-107111713.us-east-1.elb.amazonaws.com:80"
     url = f"http://{api_base_url}/api/v1/submit"
 
     payload = {'job_config': '{"extract": true, "doc_class":false, "fos":false}',
@@ -126,7 +126,7 @@ def titan_pdf_to_text(file_loc, titan_output_dir):
         resp = json.loads(response_fetch.text)
         print(resp)
         if resp['status_job'] == "in_progress":
-            time.sleep(50)
+            time.sleep(2)
             continue
         elif "status_job" == "failed":
             raise Exception(f"Titan extraction failed: {resp}")
@@ -217,6 +217,7 @@ def pdf_processor(file_loc, model_type):
             titan_op_path = titan_pdf_to_text(file_loc, titan_output_dir)
         except Exception as e:
             raise Exception(f"Titan Failure: {e}")
+        _log(status="START", resource_info="Titan")
         research_text = get_research_text(titan_op_path)
 
         if model_type == "gpt":
