@@ -132,7 +132,7 @@ def process_pdf_async():
         return jsonify(result)
     
 def async_process(request_id,pdf_path):
-    model_type = 'gpt'
+    model_type = pdf_data['type'] if pdf_data.get('type') else 'gpt'
     json_result = pdf_processor(pdf_path, model_type)
     r.json().set(request_id, "$", json_result)
     return True
