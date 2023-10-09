@@ -132,12 +132,18 @@ def process_pdf_async():
         result = {'status': 'in_progress',
                   'request_id': request_id}
         response = jsonify(result)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add('Access-Control-Allow-Methods', '*')
         return response
     except Exception as e:
         result = {'status': 'failed',
                   'request_id': request_id,
                   'error': e}
         response = jsonify(result)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', '*')
+        response.headers.add('Access-Control-Allow-Methods', '*')
         return response
     
 def async_process(request_id,pdf_path):
