@@ -75,7 +75,8 @@ def process_pdf():
             pdf_data = request.get_json()
             pdf_url = pdf_data['pdf_url']
             download_pdf(pdf_url, pdf_path)
-        json_result = pdf_processor(pdf_path)
+        model_type = pdf_data['type'] if pdf_data.get('type') else 'gpt'
+        json_result = pdf_processor(pdf_path, model_type)
         
         result = {'status': 'success',
                   'request_id': request_id,
@@ -131,7 +132,8 @@ def process_pdf_async():
         return jsonify(result)
     
 def async_process(request_id,pdf_path):
-    json_result = pdf_processor(pdf_path)
+    model_type = 'gpt'
+    json_result = pdf_processor(pdf_path, model_type)
     r.json().set(request_id, "$", json_result)
     return True
     
