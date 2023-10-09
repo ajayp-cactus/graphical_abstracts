@@ -12,7 +12,7 @@ from multiprocessing import Process
 
 # Initialise flask app
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True,resources={r"*": {"origins": "*"}})
 sslify = SSLify(app)
 AUTH_TOKEN = "test"
 request_id = str(uuid.uuid4())
