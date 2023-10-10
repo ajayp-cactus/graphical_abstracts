@@ -10,11 +10,14 @@ from datetime import datetime
 import random
 import vertexai
 from vertexai.language_models import ChatModel, InputOutputTextPair
+import tiktoken
+
 
 #--------Initialise
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+encoding = tiktoken.encoding_for_model("gpt-4")
 #----Infographic and type mapping
 infograph_templates = {
     "Template-1": {
@@ -152,12 +155,18 @@ def get_research_text(text_file_path):
         if not ("author contrib" in x.lower() and "supplementary" in x.lower()):
             y = " ".join(y)
             prompt += x+"\n"+y+"\n"
+    
     if data.get('figure_legends') or data.get('table_captions'):
         prompt += "\n Figure/Table Captions \n"
         for figure in data['figure_legends']:
             prompt += figure.get('text')+ "\n"
         for table in data['table_captions']:
             prompt += table.get('text')+ "\n"
+    token_count = len(encoding.encode(prompt))
+    print(f"****************Token count:{token_count}********")
+    if token_count > 7000:
+        decrease_by = token_count - 7000
+        prompt = prompt[:decrease_by]
     return prompt
 
 def gpt_first_prompt_msg_generation(research_text):
